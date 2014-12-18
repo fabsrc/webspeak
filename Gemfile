@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', group: :development
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,3 +38,19 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+
+
+# Use Bootstrap Material Design
+gem 'bootstrap-material-design'
+
+# Use Haml as templating engine
+gem 'haml'
+
+# Add Up- and downvote capabilities
+# gem 'acts_as_votable', '~> 0.10.0'
+
+# Use Paper Trail for versioning
+# gem 'paper_trail', '~> 3.0.6'
+
+# Use kaminari for pagination
+# gem 'kaminari'
