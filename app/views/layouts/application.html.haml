@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %title Workspace
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %header
+      .navbar.navbar-default.navbar-static-top
+        .container
+          .navbar-collapse.collapse.navbar-responsive-collapse
+            %ul.nav.navbar-nav
+              %li{class: current_page?('/') && 'active'}
+                = link_to "Home", "/"
+              %li{class: current_page?('/new') && 'active'}
+                = link_to "New Word", controller: "words", action: "new"
+    .main.container
+      = yield

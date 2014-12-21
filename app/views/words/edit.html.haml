@@ -1,0 +1,8 @@
+%h1 Edit Word
+= simple_form_for @word do |f|
+  = f.error_notification
+  = f.input :title, input_html: {value: @word.title}
+  = f.input :body, as: :text, input_html: {value: @word.body}
+  = f.button :submit, class: "btn btn-raised"
+
+= link_to 'Delete', word_path(@word), :method => :delete, class: "btn btn-danger btn-raised"
