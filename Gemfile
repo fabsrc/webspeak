@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', group: :development
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -38,3 +38,41 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Use Autoprefixer
+gem 'autoprefixer-rails'
+
+# Use Bootstrap Material Design
+gem 'bootstrap-sass', '~> 3.3.1.0'
+gem 'bootstrap-material-design'
+
+# Use Haml as templating engine
+gem 'haml', '~> 4.0.6'
+gem 'haml-rails', '~> 0.6.0'
+gem 'haml-contrib'
+
+# Use Simple Form
+gem 'simple_form'
+
+# Use FriendlyID for pretty URLs
+gem 'friendly_id'
+
+# Add Up- and downvote capabilities
+# gem 'acts_as_votable', '~> 0.10.0'
+
+# Use Paper Trail for versioning
+# gem 'paper_trail', '~> 3.0.6'
+
+# Use kaminari for pagination
+# gem 'kaminari'
+
+# Use capybara
+gem 'capybara', '~> 2.4.4', group: :test
+
+# Use minitest-reporters
+gem 'minitest-reporters', group: :test
+
+# Use capybara minitest spec
+gem 'capybara_minitest_spec', group: :test
+
+# Use Factory Girl
+# gem 'factory_girl', '~> 4.5.0', group: :test
