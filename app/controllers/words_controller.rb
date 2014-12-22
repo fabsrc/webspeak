@@ -44,6 +44,7 @@ class WordsController < ApplicationController
   
   def destroy
     @word.destroy
+    flash[:success] = "Wort gelöscht!"
     redirect_to words_path
   end
   

@@ -16,7 +16,6 @@
               %li{class: current_page?('/new') && 'active'}
                 = link_to "New Word", controller: "words", action: "new"
     .main.container
-      = render :partial => 'layouts/flash_messages'
-      .panel.panel-default
-        .panel-body
-          = yield
+      = render 'layouts/flash_messages'
+      .well.well-lg
+        = yield

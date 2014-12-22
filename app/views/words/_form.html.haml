@@ -1,0 +1,7 @@
+= simple_form_for @word do |f|
+  = f.error_notification
+  = f.input :title, required: false, input_html: { value: @word.title || @title || '' }
+  = f.input :body, as: :text, required: false, input_html: { value: @word.body || ''}
+  = f.button :submit, class: "btn btn-raised"
+  - if params['action'] == 'edit'
+    = link_to 'Delete', word_path(@word), :method => :delete, class: "btn btn-danger btn-raised"
