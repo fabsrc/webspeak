@@ -26,6 +26,7 @@ class WordsController < ApplicationController
   def create
     @word = Word.new(params.require(:word).permit(:title, :body))
     if @word.save
+      flash[:success] = "Wort erstellt!"
       redirect_to @word
     else
       render :new
@@ -34,7 +35,7 @@ class WordsController < ApplicationController
   
   def update
     if @word.update(params.require(:word).permit(:title, :body))
-      flash[:message] = "Wort akutalisiert!"
+      flash[:success] = "Wort aktualisiert!"
       redirect_to @word
     else
       render :edit
