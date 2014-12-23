@@ -1,6 +1,7 @@
 class Word < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders]
+  searchkick autocomplete: ['title']
   
   def normalize_friendly_id(string)
     string.gsub("\s", "_")

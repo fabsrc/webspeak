@@ -5,6 +5,17 @@ class WordsController < ApplicationController
     @words = Word.order('lower(title)').all
   end
   
+  def search
+    if params[:query].present?
+      @words = Word.search(params[:query], fields: [:title])
+      render :index
+    end
+  end
+  
+  def autocomplete
+      render :json => Word.search(params[:query], autocomplete: true, limit: 10).as_json(only: [:title])
+  end
+  
   def show
     if @word = Word.find_by_slug(params[:id])
       render :show

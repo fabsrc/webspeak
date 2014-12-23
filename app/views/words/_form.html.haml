@@ -4,4 +4,4 @@
   = f.input :body, as: :text, required: false, input_html: { value: @word.body || ''}
   = f.button :submit, class: "btn btn-raised"
   - if params['action'] == 'edit'
-    = link_to 'Delete', word_path(@word), :method => :delete, class: "btn btn-danger btn-raised"
+    = link_to 'Delete', word_path(@word), :method => :delete, class: "btn btn-flat btn-danger"

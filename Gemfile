@@ -76,3 +76,12 @@ gem 'capybara_minitest_spec', group: :test
 
 # Use Factory Girl
 # gem 'factory_girl', '~> 4.5.0', group: :test
+
+# Use searchkick for elasticserach
+gem "searchkick"
+
+# Use typeahead for autocomplete
+gem 'bootstrap-typeahead-rails'
+
+# Use jQuery Turbolink Fix
+gem 'jquery-turbolinks'

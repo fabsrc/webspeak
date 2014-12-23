@@ -16,6 +16,13 @@
               %li{class: current_page?('/new') && 'active'}
                 = link_to "New Word", controller: "words", action: "new"
     .main.container
+      .well.well-sm
+        = form_tag '/s', class: "form-inline", method: :get do
+          .form-group
+            = text_field_tag :query, params[:query], class: "form-control", id: "word_search", autocomplete: "off"
+          = submit_tag "Search", class: "btn btn-primary"
+          - if params[:query].present?
+            = link_to "clear", words_path
       = render 'layouts/flash_messages'
       .well.well-lg
         = yield

@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  resources :words, :path => ''
+  #search
+  get 's/' => 'words#search'
+  get 's/:query' => 'words#search'
+  
+  resources :words, :path => '' do
+    collection do
+      get :autocomplete
+    end
+  end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
