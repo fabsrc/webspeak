@@ -9,6 +9,8 @@ class WordsController < ApplicationController
     if params[:query].present?
       @words = Word.search(params[:query], fields: [:title])
       render :index
+    else
+      redirect_to words_path
     end
   end
   
