@@ -2,13 +2,13 @@ class WordsController < ApplicationController
   before_action :find_word, only: [:edit, :update, :destroy]
   
   def index
+    @title = "Webspeak"
     @words = Word.order('lower(title)').all
   end
   
   def search
     if params[:query].present?
-      @words = Word.search(params[:query], fields: [:title])
-      render :index
+      redirect_to words_path + "#{URI.escape(params[:query])}"
     else
       redirect_to words_path
     end
@@ -19,16 +19,21 @@ class WordsController < ApplicationController
   end
   
   def show
-    if @word = Word.find_by_slug(params[:id])
-      render :show
-    else
-      if params[:id].match(/\s/)
-        redirect_to word_path(params[:id].gsub("\s", "_"))
+    @words = Word.search(params[:id], fields: [:title, :slug])
+    @title = params[:id].gsub("_", "\s")
+    if @words.count == 1
+      @word = @words.first
+      if @word.slug == params[:id]
+        @title = @word.title
+        render :show
       else
-        @title = params[:id].gsub("_", "\s")
-        @word = Word.new
-        render :new
+        redirect_to @word
       end
+    elsif @words.count > 1
+      render :index
+    else
+      @word = Word.new
+      render :new
     end
   end
 
