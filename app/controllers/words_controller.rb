@@ -19,6 +19,15 @@ class WordsController < ApplicationController
   end
   
   def show
+    if @word = Word.find_by_slug(params[:id])
+      @title = @word.title
+      render :show
+    else
+      switch
+    end
+  end
+  
+  def switch
     @words = Word.search(params[:id], fields: [:title, :slug])
     @title = params[:id].gsub("_", "\s")
     if @words.count == 1
@@ -36,13 +45,35 @@ class WordsController < ApplicationController
       render :new
     end
   end
+  
+  def translation
+    if((@word = Word.find_by_slug(params[:id])) && (@lang = Language.find_by_code(params[:lang])))
+      if @word.language == @lang
+        redirect_to @word
+      elsif @translated_word = @word.translations.find_by_language_id(@lang.id) || @word.translation_of.find_by_language_id(@lang.id)
+        redirect_to @translated_word
+      else
+        @word_to_translate = @word
+        @word = Word.new language: @lang
+        render :new
+      end
+    else
+      redirect_to words_path + "#{URI.escape(params[:id])}"
+    end
+  end
 
   def new
     @word = Word.new
   end
   
   def create
-    @word = Word.new(get_params)
+    if @translation_of = params.require(:word)['translation_of']
+      @word = Word.find(@translation_of)
+      @word.translations.build get_params
+    else
+      @word = Word.new get_params
+    end
+    
     if @word.save
       flash[:success] = "Wort erstellt!"
       redirect_to @word
@@ -76,7 +107,7 @@ class WordsController < ApplicationController
   end
   
   def get_params
-    params.require(:word).permit(:title, :body)
+    params.require(:word).permit(:title, :body, :language_id)
   end
   
 end

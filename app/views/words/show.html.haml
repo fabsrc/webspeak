@@ -1,4 +1,13 @@
-%h1= @word.title
-%p= @word.body
+- @translations = @word.translations + @word.translation_of 
+.well.well-sm
+  - if @translations.any?
+    - @translations.each do |translation|
+      = link_to translation.language.code.upcase, word_path(translation)
+  - else
+    New Translation  
 
-= link_to 'Edit', edit_word_path(@word), class: "btn btn-default btn-raised"
+.well.well-lg
+  %h1= @word.title
+  %p= @word.body
+  
+  = link_to 'Edit', edit_word_path(@word), class: "btn btn-default btn-raised"

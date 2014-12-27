@@ -4,5 +4,8 @@ Rails.application.routes.draw do
       get 'autocomplete'
       get 'search'
     end
+    member do
+      get '/:lang' => 'words#translation'
+    end
   end
 end
