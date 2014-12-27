@@ -3,7 +3,7 @@ class WordsController < ApplicationController
   
   def index
     @title = "Webspeak"
-    @words = Word.order('lower(title)').all
+    @words = Word.ordered
   end
   
   def search
@@ -42,7 +42,7 @@ class WordsController < ApplicationController
   end
   
   def create
-    @word = Word.new(params.require(:word).permit(:title, :body))
+    @word = Word.new(get_params)
     if @word.save
       flash[:success] = "Wort erstellt!"
       redirect_to @word
@@ -51,8 +51,12 @@ class WordsController < ApplicationController
     end
   end
   
+  def edit
+    @title = @word.title
+  end
+  
   def update
-    if @word.update(params.require(:word).permit(:title, :body))
+    if @word.update(get_params)
       flash[:success] = "Wort aktualisiert!"
       redirect_to @word
     else
@@ -69,6 +73,10 @@ class WordsController < ApplicationController
   private
   def find_word
     @word = Word.find(params[:id])
+  end
+  
+  def get_params
+    params.require(:word).permit(:title, :body)
   end
   
 end

@@ -1,6 +1,6 @@
 = simple_form_for @word do |f|
   = f.error_notification
-  = f.input :title, required: false, input_html: { value: @word.title || @title || '' }
+  = f.input :title, required: false, input_html: { value: @title || '' }
   = f.input :body, as: :text, required: false, input_html: { value: @word.body || ''}
   = f.button :submit, class: "btn btn-raised"
   - if params['action'] == 'edit'

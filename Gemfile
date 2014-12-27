@@ -65,6 +65,9 @@ gem 'friendly_id'
 # Use kaminari for pagination
 # gem 'kaminari'
 
+# Use Factory Girl
+# gem 'factory_girl', '~> 4.5.0', group: :test
+
 # Use capybara
 gem 'capybara', '~> 2.4.4', group: :test
 
@@ -73,9 +76,6 @@ gem 'minitest-reporters', group: :test
 
 # Use capybara minitest spec
 gem 'capybara_minitest_spec', group: :test
-
-# Use Factory Girl
-# gem 'factory_girl', '~> 4.5.0', group: :test
 
 # Use searchkick for elasticserach
 gem "searchkick"
