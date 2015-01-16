@@ -47,4 +47,20 @@ class WordTest < ActiveSupport::TestCase
     assert_equal "This-is_A_SLUG_T3st!", test_is_slug_right.slug
   end
   
+  test "should create translation of language" do
+    word = Word.create title: "My Test Title", body: "This Text is a test text.", language_id: @lang.id
+    language = Language.create(name: 'German', code: 'de')
+    translation = word.translations.new title: "My Translation Title", body: "This Text is translated from another text..", language_id: language.id
+    assert translation.save
+    assert_not_empty word.translations
+  end
+  
+  test "should not create translation of language with wrong data" do
+    word = Word.create title: "My Test Title", body: "This Text is a test text.", language_id: @lang.id
+    language = Language.create(name: 'German', code: 'de')
+    translation = word.translations.new body: "This Text is translated from another text..", language_id: language.id
+    assert_not translation.save
+    assert_empty Word.find_by_id(word.id).translations
+  end
+  
 end
