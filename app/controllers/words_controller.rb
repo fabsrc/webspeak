@@ -6,7 +6,7 @@ class WordsController < ApplicationController
     @words = Word.ordered
   end
   
-  def search
+  def _search
     if params[:query].present?
       redirect_to words_path + "#{URI.escape(params[:query])}"
     else
@@ -14,7 +14,7 @@ class WordsController < ApplicationController
     end
   end
   
-  def autocomplete
+  def _autocomplete
       render :json => Word.search(params[:query], autocomplete: true, limit: 10).as_json(only: [:title])
   end
   

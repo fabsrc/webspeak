@@ -6,7 +6,7 @@ $ ->
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     #prefetch: '../data/films/post_1960.json',
-    remote: '/autocomplete?query=%QUERY'
+    remote: '/_autocomplete?query=%QUERY'
     
   words.initialize();
   

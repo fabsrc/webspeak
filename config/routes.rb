@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :words, :path => '' do
     collection do
-      get 'autocomplete'
-      get 'search'
+      get '_autocomplete'
+      get '_search'
     end
     member do
       get '/edit'  => 'words#edit'

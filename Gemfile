@@ -56,26 +56,11 @@ gem 'simple_form'
 # Use FriendlyID for pretty URLs
 gem 'friendly_id'
 
-# Add Up- and downvote capabilities
-# gem 'acts_as_votable', '~> 0.10.0'
-
 # Use Paper Trail for versioning
 # gem 'paper_trail', '~> 3.0.6'
 
-# Use kaminari for pagination
-# gem 'kaminari'
-
-# Use Factory Girl
-# gem 'factory_girl', '~> 4.5.0', group: :test
-
-# Use capybara
-gem 'capybara', '~> 2.4.4', group: :test
-
 # Use minitest-reporters
 gem 'minitest-reporters', group: :test
-
-# Use capybara minitest spec
-gem 'capybara_minitest_spec', group: :test
 
 # Use searchkick for elasticserach
 gem "searchkick"
