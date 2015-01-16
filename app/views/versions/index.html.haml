@@ -1,0 +1,9 @@
+.well.well-lg
+  %h1 Versions
+  
+  .list-group
+    - @versions.each do |version|
+      %strong= version.created_at 
+      = version.object
+      = link_to "Restore", revert_version_word_path(version_id: version), :method => :post
+      <br>

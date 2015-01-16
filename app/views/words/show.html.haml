@@ -14,3 +14,5 @@
   %p= @word.body
   
   = link_to 'Edit', edit_word_path(@word), class: "btn btn-default btn-raised"
+  - if @word.versions.present?
+    = link_to 'Versions', {controller: 'versions', action: 'index'}, class: "btn btn-default btn-raised"

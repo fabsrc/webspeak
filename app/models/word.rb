@@ -2,6 +2,7 @@ class Word < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders]
   searchkick autocomplete: ['title']
+  has_paper_trail
   
   validates_presence_of [:title, :body, :slug, :language]
   validates_length_of :body, :minimum => 20
@@ -20,7 +21,7 @@ class Word < ActiveRecord::Base
   belongs_to :language
   
   scope :ordered, -> { order('lower(title)').all }
-                                     
+  
   def normalize_friendly_id(string)
     string.gsub("\s", "_")
   end

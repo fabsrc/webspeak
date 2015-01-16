@@ -57,7 +57,7 @@ gem 'simple_form'
 gem 'friendly_id'
 
 # Use Paper Trail for versioning
-# gem 'paper_trail', '~> 3.0.6'
+gem 'paper_trail', '~> 3.0.6'
 
 # Use minitest-reporters
 gem 'minitest-reporters', group: :test
