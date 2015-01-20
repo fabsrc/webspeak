@@ -73,3 +73,5 @@ gem 'bootstrap-typeahead-rails'
 
 # Use jQuery Turbolink Fix
 gem 'jquery-turbolinks'
+
+# Test
