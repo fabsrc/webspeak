@@ -4,7 +4,7 @@ class VersionsController < ApplicationController
     @title = word.title
     @versions = word.versions
   end
-  
+
   def revert
     @version = Word.find_by_slug(params[:id]).versions.find(params[:version_id])
     if @version.reify.save!

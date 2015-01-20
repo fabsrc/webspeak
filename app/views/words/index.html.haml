@@ -1,12 +1,8 @@
 .well.well-lg
   %h1 All Words
-  
+
   .list-group
-    - letter = ''
-    - @words.each do |word|
-      - if letter != word.title.downcase[0]
-        .list-group-item
-          %strong= word.title.upcase[0]
-      = link_to word.title, word_path(word), class: "list-group-item"
-      - letter = word.title.downcase[0]
-    
+    - @words.each do |letter, words_array|
+      %strong= letter
+      - words_array.each do |word|
+        = link_to word.title, word_path(word), class: "list-group-item"
