@@ -1,0 +1,9 @@
+= simple_form_for @user do |f|
+  = f.error_notification
+  = f.input :name, required: false, input_html: { value: @user.name || '' }
+  = f.input :email, required: false, input_html: { value: @user.email || ''}
+  = f.input :password, required: false, input_html: { minlength: 6}
+  = f.input :password_confirmation, label: "Password Confirmation", required: false, input_html: { minlength: 6}
+  = f.button :submit, class: "btn btn-raised"
+  - if params['action'] == 'edit'
+    = link_to 'Delete', user_path(@user), :method => :delete, class: "btn btn-flat btn-danger"

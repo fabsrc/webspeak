@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227155709) do
+ActiveRecord::Schema.define(version: 20150113151755) do
+
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -26,6 +27,7 @@ ActiveRecord::Schema.define(version: 20141227155709) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
+
   create_table "languages", force: true do |t|
     t.string "name"
     t.string "code"
@@ -35,6 +37,18 @@ ActiveRecord::Schema.define(version: 20141227155709) do
     t.integer "word_id"
     t.integer "translation_id"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.integer  "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "password_digest"
+    t.string   "remember_digest"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
   create_table "words", force: true do |t|
     t.string   "title"
