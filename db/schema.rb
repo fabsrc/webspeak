@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150113151755) do
 
-
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -27,15 +26,9 @@ ActiveRecord::Schema.define(version: 20150113151755) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
-
   create_table "languages", force: true do |t|
     t.string "name"
     t.string "code"
-  end
-
-  create_table "word_translations", force: true do |t|
-    t.integer "word_id"
-    t.integer "translation_id"
   end
 
   create_table "users", force: true do |t|
@@ -49,6 +42,11 @@ ActiveRecord::Schema.define(version: 20150113151755) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+
+  create_table "word_translations", force: true do |t|
+    t.integer "word_id"
+    t.integer "translation_id"
+  end
 
   create_table "words", force: true do |t|
     t.string   "title"
