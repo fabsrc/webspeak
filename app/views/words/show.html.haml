@@ -1,12 +1,15 @@
-.well.well-sm
-  - @translations.each do |translation|
-    = link_to translation.language.code, word_path(translation)
-  - @languages.each do |language|
-    = link_to "New " + language.name + " translation", translation_word_path(@word, language.code)
-
 .well.well-lg
   %h1= @word.title
   %p= @word.body
 
-  = link_to 'Edit', edit_word_path(@word), class: "btn btn-default btn-raised"
-  = link_to 'Versions', {controller: 'versions', action: 'index'}, class: "btn btn-default btn-raised"
+  = link_to 'Edit', edit_word_path(@word), class: 'btn btn-default btn-raised'
+  - if @word.versions.count > 0
+    = link_to 'Versions', { controller: 'versions', action: 'index' },
+      class: 'btn btn-default btn-raised'
+
+.well.well-sm
+  - @translations.each do |translation|
+    = link_to translation.language.code, word_path(translation)
+  - @languages.each do |language|
+    = link_to 'New ' + language.name + ' translation',
+      translation_word_path(@word, language.code)

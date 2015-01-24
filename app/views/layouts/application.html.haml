@@ -2,26 +2,26 @@
 %html
   %head
     %title= @title ? @title + ' - Webspeak' : 'Webspeak'
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all',
+      'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
     %header
       .navbar.navbar-default.navbar-static-top
         .container
+          .navbar-header
+            = link_to 'Webspeak', '/', class: 'navbar-brand'
           .navbar-collapse.collapse.navbar-responsive-collapse
-            %ul.nav.navbar-nav
-              %li{class: current_page?('/') && 'active'}
-                = link_to "Home", "/"
-              %li{class: current_page?('/new') && 'active'}
-                = link_to "New Word", controller: "words", action: "new"
+            %ul.nav.navbar-nav.navbar-right
+              %li{ class: current_page?('/new') && 'active' }
+                = link_to 'New Word', controller: 'words', action: 'new'
+            = form_tag({ controller: 'words', action: '_search' },
+              class: 'navbar-form navbar-left', method: :get) do
+              .form-group
+                = text_field_tag :query, params[:query], class: 'form-control',
+                  id: 'word_search', autocomplete: 'off', placeholder: 'Search'
+              = submit_tag 'Search', class: 'btn btn-primary hidden'
     .main.container
-      .well.well-sm
-        = form_tag({controller: "words", action: "_search"}, class: "form-inline", method: :get) do
-          .form-group
-            = text_field_tag :query, params[:query], class: "form-control", value: @title || '' ,id: "word_search", autocomplete: "off"
-          = submit_tag "Search", class: "btn btn-primary"
-          - if params[:query].present?
-            = link_to "clear", words_path
       = render 'layouts/flash_messages'
       = yield

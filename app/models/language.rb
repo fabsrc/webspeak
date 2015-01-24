@@ -1,11 +1,11 @@
 class Language < ActiveRecord::Base
   has_many :words
 
-  validates_presence_of :name, :code
-  validates_uniqueness_of :name, :code, :case_sensitive => false
-  validates_length_of :code, :is => 2
+  validates :name, :code, presence: true
+  validates :name, :code, uniqueness: { case_sensitive: true }
+  validates :code, length: { is: 2 }
 
   def code=(new_code)
-    write_attribute(:code, new_code.upcase)
+    self[:code] = new_code.upcase
   end
 end

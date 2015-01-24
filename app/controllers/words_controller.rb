@@ -2,13 +2,12 @@ class WordsController < ApplicationController
   before_action :find_word, only: [:edit, :update, :destroy]
 
   def index
-    @title = "Webspeak"
-    @words = Word.ordered.group_by{ |w| w.title[0].upcase }
+    @title = 'Webspeak'
+    @words = Word.ordered.group_by { |word| word.title[0].upcase }
   end
-  
+
   def index_by_language
-    language = Language.find_by_code(params[:lang].upcase)
-    @words = Word.language(params[:lang]).ordered.group_by{ |w| w.title[0].upcase }
+    @words = Word.language(params[:lang].upcase).ordered.group_by { |word| word.title[0].upcase }
     if !@words.empty?
       render :index
     else
@@ -17,24 +16,30 @@ class WordsController < ApplicationController
   end
 
   def _search
-    if params[:query].present?
-      redirect_to words_path + "#{ URI.escape(params[:query]) }"
+    query = params[:query]
+    if query.present?
+      redirect_to words_path + "#{ URI.escape(query) }"
     else
       redirect_to words_path
     end
   end
 
   def _autocomplete
-    render json: Word.search(params[:query], autocomplete: true, limit: 10).as_json(only: [:title])
+    render json: Word.search(
+      params[:query],
+      autocomplete: true,
+      limit: 10).as_json(only: [:title])
   end
 
   def show
-    if @word = Word.find_by_slug(params[:id])
+    @word = Word.find_by_slug(params[:id])
+    if @word
       @title = @word.title
-      @translations = @word.translations + @word.translation_of
-      translation_codes = @translations.map{ |t| t.language.code }
-      translation_codes.push @word.language.code
-      @languages = Language.where.not(code: translation_codes).all
+      @translations = @word.translations
+      @languages = Language.where
+                           .not(code: @word.translations
+                           .collect { |translation| translation.language.code }
+                           .push(@word.language.code))
       render :show
     else
       search_for_words
@@ -42,32 +47,32 @@ class WordsController < ApplicationController
   end
 
   def search_for_words
-    @words = Word.search(params[:id], fields: [:title, :slug])
-    @title = params[:id].gsub("_", "\s")
+    slug = params[:id]
+    @words = Word.search(slug, fields: [:title, :slug])
     if @words.count == 1
       @word = @words.first
       redirect_to @word
     elsif @words.count > 1
-      @words = @words.group_by{ |u| u.title[0].upcase }
+      @words = @words.group_by { |word| word.title[0].upcase }
       render :index
     else
       @word = Word.new
+      flash[:info] = 'Word doesn\'t exist. Create it now!'
       render :new
     end
   end
 
-  def get_translation
-    if !@word = Word.find_by_slug(params[:id])
+  def find_translation
+    unless (@word = Word.find_by_slug(params[:id]))
       return redirect_to(action: 'show')
     end
-    if !@lang = Language.find_by_code(params[:lang].upcase)
+    unless (@lang = Language.find_by_code(params[:lang].upcase))
       return redirect_to word_path(@word)
     end
-    if @word.language === @lang
+    if (@translated_word = @word.translations.find_by_language_id(@lang))
+      return redirect_to word_path(@translated_word)
+    elsif @word.language == @lang
       return redirect_to word_path(@word)
-    end
-    if @translated_word = @word.translations.find_by_language_id(@lang.id) || @word.translation_of.find_by_language_id(@lang.id)
-      redirect_to @translated_word
     else
       @word_to_translate = @word
       @word = Word.new language: @lang
@@ -80,11 +85,10 @@ class WordsController < ApplicationController
   end
 
   def create
-    @word = Word.new get_params
-
+    @word = Word.new require_params
     if @word.save
       create_translation
-      flash[:success] = "Wort erstellt!"
+      flash[:success] = 'Word created.'
       redirect_to @word
     else
       render :new
@@ -92,10 +96,11 @@ class WordsController < ApplicationController
   end
 
   def create_translation
-    if translation_of = params.require(:word)[:translation_of]
-      word_to_translate = Word.find(translation_of)
-      word_to_translate.translations<< @word
-    end
+    translation_of = params.require(:word)[:translation_of]
+    return false unless translation_of
+    word_to_translate = Word.find(translation_of)
+    word_to_translate.translations << @word
+    @word.translations << word_to_translate
   end
 
   def edit
@@ -103,8 +108,8 @@ class WordsController < ApplicationController
   end
 
   def update
-    if @word.update(get_params)
-      flash[:success] = "Wort aktualisiert!"
+    if @word.update(require_params)
+      flash[:success] = 'Word updated.'
       redirect_to @word
     else
       render :edit
@@ -113,18 +118,17 @@ class WordsController < ApplicationController
 
   def destroy
     @word.destroy
-    flash[:success] = "Wort gelöscht!"
+    flash[:success] = 'Word deleted.'
     redirect_to words_path
   end
-
 
   def find_word
     @word = Word.find(params[:id])
   end
 
-  def get_params
+  def require_params
     params.require(:word).permit(:title, :body, :language_id)
   end
 
-  private :search_for_words, :find_word, :get_params, :create_translation
+  private :search_for_words, :find_word, :require_params, :create_translation
 end

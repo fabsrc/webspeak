@@ -5,6 +5,7 @@
   = f.association :language, as: :select, include_blank: false, required: false
   - if @word_to_translate
     = hidden_field_tag 'word[translation_of]', @word_to_translate.id
-  = f.button :submit, class: "btn btn-raised"
+  = f.button :submit, class: 'btn btn-raised'
   - if params['action'] == 'edit'
-    = link_to 'Delete', word_path(@word), :method => :delete, class: "btn btn-flat btn-danger"
+    = link_to 'Delete', word_path(@word), method: :delete,
+      class: 'btn btn-flat btn-danger'

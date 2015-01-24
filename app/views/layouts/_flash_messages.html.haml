@@ -1,6 +1,5 @@
 - [:error, :warning, :success, :info, :danger].each do |message_type|
   - if flash[message_type]
-    %div{ :class => "alert alert-dismissable alert-#{message_type}" }
-      %button(class='close' type='button' data-dismiss='alert') ×
-      %p
-        = flash[message_type]
+    .alert.alert-dismissable{ class: "alert-#{message_type}" }
+      %button.close{ :type => 'button', :'data-dismiss' => 'alert' } ×
+      %p= flash[message_type]

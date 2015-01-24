@@ -8,10 +8,10 @@ class VersionsController < ApplicationController
   def revert
     @version = Word.find_by_slug(params[:id]).versions.find(params[:version_id])
     if @version.reify.save!
-      flash[:success] = "Wort wiederhergestellt."
+      flash[:success] = 'Word reverted.'
       redirect_to word_path(@version.item)
     else
-      flash[:error] = "Wort konnte nicht wiederhergestellt werden."
+      flash[:danger] = 'Word could not be reverted.'
       redirect_to versions_word_path
     end
   end
