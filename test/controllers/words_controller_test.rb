@@ -19,10 +19,9 @@ class WordsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:word)
   end
 
-  test 'should render new if Word does not exist' do
+  test 'should redirect to search if Word does not exist' do
     get :show, id: 'Not-Existent'
-    assert_template :new
-    assert_response :success
+    assert_redirected_to search_words_path(query: 'Not-Existent')
   end
 
   test 'should get new' do

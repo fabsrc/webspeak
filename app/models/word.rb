@@ -18,7 +18,7 @@ class Word < ActiveRecord::Base
   belongs_to :language
 
   scope :ordered, -> { order('lower(title)') }
-  scope :language, ->(lang) { where(language: Language.find_by_code(lang.upcase)) }
+  scope :language, ->(l) { where(language: Language.find_by(code: l.upcase)) }
 
   def normalize_friendly_id(string)
     string.to_s.gsub(/\s/, '_')

@@ -16,10 +16,10 @@
             %ul.nav.navbar-nav.navbar-right
               %li{ class: current_page?('/new') && 'active' }
                 = link_to 'New Word', controller: 'words', action: 'new'
-            = form_tag({ controller: 'words', action: '_search' },
+            = form_tag({ controller: 'search', action: 'search' },
               class: 'navbar-form navbar-left', method: :get) do
               .form-group
-                = text_field_tag :query, params[:query], class: 'form-control',
+                = search_field_tag :query, params[:query], class: 'form-control',
                   id: 'word_search', autocomplete: 'off', placeholder: 'Search'
               = submit_tag 'Search', class: 'btn btn-primary hidden'
     .main.container

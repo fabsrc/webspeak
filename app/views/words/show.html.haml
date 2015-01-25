@@ -7,9 +7,4 @@
     = link_to 'Versions', { controller: 'versions', action: 'index' },
       class: 'btn btn-default btn-raised'
 
-.well.well-sm
-  - @translations.each do |translation|
-    = link_to translation.language.code, word_path(translation)
-  - @languages.each do |language|
-    = link_to 'New ' + language.name + ' translation',
-      translation_word_path(@word, language.code)
+= render 'translations'
