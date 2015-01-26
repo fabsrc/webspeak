@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  get '_signup',    to: 'users#new'
-  get '_login',     to: 'sessions#new'
-  post '_login',    to: 'sessions#create'
-  delete '_logout', to: 'sessions#destroy'
+  get 'signup',    to: 'users#new'
+  get 'login',     to: 'sessions#new'
+  post 'login',    to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
   resources :users
   resources :words, path: '' do

@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20150124171343) do
     t.string "code"
   end
 
+  create_table "translations", force: true do |t|
+    t.integer  "word_id"
+    t.integer  "translation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -42,11 +49,6 @@ ActiveRecord::Schema.define(version: 20150124171343) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-
-  create_table "translations", force: true do |t|
-    t.integer  "word_id"
-    t.integer  "translation_id"
-  end
 
   create_table "versions", force: true do |t|
     t.string   "item_type",      null: false
