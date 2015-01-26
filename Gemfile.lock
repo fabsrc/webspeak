@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    abstract_type (0.0.7)
     actionmailer (4.1.6)
       actionpack (= 4.1.6)
       actionview (= 4.1.6)
@@ -27,10 +28,17 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    adamantium (0.2.0)
+      ice_nine (~> 0.11.0)
+      memoizable (~> 0.4.0)
     ansi (1.4.3)
     arel (5.0.1.20140414130214)
+    ast (2.0.0)
+    astrolabe (1.3.0)
+      parser (>= 2.2.0.pre.3, < 3.0)
     autoprefixer-rails (4.0.2.1)
       execjs
+    awesome_print (1.6.1)
     bcrypt (3.1.7)
     bootstrap-material-design (0.1.4)
       bootstrap-sass (~> 3.0)
@@ -43,6 +51,8 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
+    code_analyzer (0.4.5)
+      sexp_processor
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -50,8 +60,13 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    colored (1.2)
     columnize (0.9.0)
+    concord (0.1.5)
+      adamantium (~> 0.2.0)
+      equalizer (~> 0.0.9)
     debugger-linecache (1.2.0)
+    diff-lcs (1.2.5)
     elasticsearch (1.0.6)
       elasticsearch-api (= 1.0.6)
       elasticsearch-transport (= 1.0.6)
@@ -60,8 +75,14 @@ GEM
     elasticsearch-transport (1.0.6)
       faraday
       multi_json
+    equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.2.2)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     friendly_id (5.0.4)
@@ -70,6 +91,10 @@ GEM
       tilt
     haml-contrib (1.0.0.1)
       haml (>= 3.2.0.alpha.13)
+    haml-lint (0.11.0)
+      haml (~> 4.0)
+      rubocop (>= 0.25.0)
+      sysexits (~> 1.1)
     haml-rails (0.6.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
@@ -85,6 +110,7 @@ GEM
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
     i18n (0.6.11)
+    ice_nine (0.11.1)
     jbuilder (2.2.6)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -97,6 +123,8 @@ GEM
     json (1.8.1)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
     mime-types (2.4.3)
     minitest (5.5.0)
     minitest-reporters (1.0.8)
@@ -106,6 +134,13 @@ GEM
       ruby-progressbar
     multi_json (1.10.1)
     multipart-post (2.0.0)
+    paper_trail (3.0.6)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
+    parser (2.2.0.2)
+      ast (>= 1.1, < 3.0)
+    powerpack (0.0.9)
+    procto (0.0.2)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -119,14 +154,36 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.1.6)
       sprockets-rails (~> 2.0)
+    rails_best_practices (1.15.4)
+      activesupport
+      awesome_print
+      code_analyzer (>= 0.4.3)
+      colored
+      erubis
+      i18n
+      json
+      require_all
+      ruby-progressbar
     railties (4.1.6)
       actionpack (= 4.1.6)
       activesupport (= 4.1.6)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    rainbow (2.0.0)
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    reek (1.6.4)
+      parser (~> 2.2.0.pre.7)
+      rainbow (>= 1.99, < 3.0)
+      unparser (~> 0.2.2)
+    require_all (1.3.2)
+    rubocop (0.28.0)
+      astrolabe (~> 1.3)
+      parser (>= 2.2.0.pre.7, < 3.0)
+      powerpack (~> 0.0.6)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.4)
     ruby-progressbar (1.7.0)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
@@ -159,6 +216,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.10)
+    sysexits (1.2.0)
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -169,6 +227,14 @@ GEM
     uglifier (2.6.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unparser (0.2.2)
+      abstract_type (~> 0.0.7)
+      adamantium (~> 0.2.0)
+      concord (~> 0.1.5)
+      diff-lcs (~> 1.2.5)
+      equalizer (~> 0.0.9)
+      parser (~> 2.2.0.2)
+      procto (~> 0.0.2)
 
 PLATFORMS
   ruby
@@ -181,15 +247,21 @@ DEPENDENCIES
   bootstrap-typeahead-rails
   byebug (= 3.4.0)
   coffee-rails (~> 4.0.0)
+  factory_girl_rails
   friendly_id
   haml (~> 4.0.6)
   haml-contrib
+  haml-lint
   haml-rails (~> 0.6.0)
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
   minitest-reporters
+  paper_trail (~> 3.0.6)
   rails (= 4.1.6)
+  rails_best_practices
+  reek
+  rubocop
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   searchkick

@@ -4,13 +4,12 @@ require 'rails/test_help'
 require 'minitest/reporters'
 
 reporter_options = { color: true }
-Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter
+  .new(reporter_options)]
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
   def is_logged_in?
     !session[:user_id].nil?
   end
@@ -28,8 +27,11 @@ class ActiveSupport::TestCase
   end
 
   private
-    # Returns true inside an integration test.
-    def integration_test?
-      defined?(post_via_redirect)
-    end
+
+  # Returns true inside an integration test.
+  def integration_test?
+    defined?(post_via_redirect)
+  end
+
+  include FactoryGirl::Syntax::Methods
 end

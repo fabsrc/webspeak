@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150113151755) do
+ActiveRecord::Schema.define(version: 20150124171343) do
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
@@ -43,10 +43,22 @@ ActiveRecord::Schema.define(version: 20150113151755) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
 
-  create_table "word_translations", force: true do |t|
-    t.integer "word_id"
-    t.integer "translation_id"
+  create_table "translations", force: true do |t|
+    t.integer  "word_id"
+    t.integer  "translation_id"
   end
+
+  create_table "versions", force: true do |t|
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.text     "object_changes"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
   create_table "words", force: true do |t|
     t.string   "title"
