@@ -40,7 +40,7 @@ class WordsController < ApplicationController
 
   def create
     @word = Word.new require_params
-    if @word.save
+    if @word.save!
       create_translation
       redirect_to @word, flash: { success: 'Word created.' }
     else

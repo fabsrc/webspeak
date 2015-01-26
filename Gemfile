@@ -60,6 +60,7 @@ gem 'paper_trail', '~> 3.0.6'
 
 # Use minitest-reporters
 gem 'minitest-reporters', group: :test
+gem 'factory_girl_rails', group: :test
 
 # Use searchkick for elasticserach
 gem 'searchkick'

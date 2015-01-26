@@ -4,11 +4,9 @@ require 'rails/test_help'
 require 'minitest/reporters'
 
 reporter_options = { color: true }
-Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter
+  .new(reporter_options)]
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  # fixtures :all
-
-  # Add more helper methods to be used by all tests here...
+  include FactoryGirl::Syntax::Methods
 end
