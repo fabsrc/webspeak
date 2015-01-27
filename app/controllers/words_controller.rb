@@ -71,7 +71,7 @@ class WordsController < ApplicationController
 
   def find_word
     @word = Word.find_by(slug: params[:id])
-    return redirect_to search_words_path(query: params[:id]) unless @word
+    return redirect_to search_path(query: params[:id]) unless @word
   end
 
   def require_params

@@ -20,7 +20,7 @@ class WordsControllerTest < ActionController::TestCase
 
   test 'should redirect to search if Word does not exist' do
     get :show, id: 'Not-Existent'
-    assert_redirected_to search_words_path(query: 'Not-Existent')
+    assert_redirected_to search_path(query: 'Not-Existent')
   end
 
   test 'should get new' do
