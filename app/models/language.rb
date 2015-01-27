@@ -1,11 +1,15 @@
 class Language < ActiveRecord::Base
-  has_many :word
-  
-  validates_presence_of [:name, :code]
-  validates_uniqueness_of [:name, :code], :case_sensitive => false
-  validates_length_of :code, :is => 2
-  
-  def code=(s)
-    super s.upcase
+  has_many :words
+
+  before_save :upcase_code
+
+  validates :name, :code, presence: true
+  validates :name, :code, uniqueness: { case_sensitive: true }
+  validates :code, length: { is: 2 }
+
+  def upcase_code
+    code.upcase!
   end
+
+  private :upcase_code
 end

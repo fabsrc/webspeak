@@ -1,40 +1,43 @@
 require 'test_helper'
 
 class LanguageTest < ActiveSupport::TestCase
-  test "should not save language without name" do
-    language = Language.new(code: 'DE')
-    assert_not language.save
-    assert_not_includes Language.all, language
+  def setup
+    @lang = build(:testlanguage)
   end
-  
-  test "should not save language without code" do
-    language = Language.new(name: 'German')
-    assert_not language.save
-    assert_not_includes Language.all, language
+
+  test 'should not save language without name' do
+    @lang.name = nil
+    assert_not @lang.save
+    assert_not_includes Language.all, @lang
   end
-  
-  test "should not save language if already exists" do
-    language_in_db = Language.create(name: 'German', code: 'de')
-    language = Language.new(name: 'German', code: 'de')
-    assert_not language.save
-    assert_not_includes Language.all, language
+
+  test 'should not save language without code' do
+    @lang.code = nil
+    assert_not @lang.save
+    assert_not_includes Language.all, @lang
   end
-  
-  test "should not save language with wrong code" do
-    language = Language.new(name: 'German', code: 'DEU')
-    assert_not language.save
-    assert_not_includes Language.all, language
+
+  test 'should not save language if already exists' do
+    @lang.save
+    @same_lang = build(:testlanguage)
+    assert_not @same_lang.save
+    assert_not_includes Language.all, @same_lang
   end
-  
-  test "should save language with right data" do
-    language = Language.new(name: 'German', code: 'de')
-    assert language.save
-    assert_includes Language.all, language
+
+  test 'should not save language with wrong code' do
+    @lang.code = 'TEST'
+    assert_not @lang.save
+    assert_not_includes Language.all, @lang
   end
-  
-  test "should save language with right data and upcase code" do
-    language = Language.create(name: 'German', code: 'de')
-    assert_includes Language.all, language
-    assert_equal 'DE', language.code
+
+  test 'should save language with right data' do
+    assert @lang.save
+    assert_includes Language.all, @lang
+  end
+
+  test 'should save language with right data and upcase code' do
+    @lang.code = 'de'
+    @lang.save
+    assert_equal 'DE', @lang.code
   end
 end

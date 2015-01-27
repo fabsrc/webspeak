@@ -1,0 +1,22 @@
+.well.well-lg
+  %h1= 'Versions of ' + @title
+
+  .list-group
+    - @versions.each do |version|
+      .list-group-item
+        .row-action-primary
+          %i.mdi-device-access-time
+        .row-content
+          %h4
+            %strong.list-group-item-heading
+              = version.created_at.to_formatted_s(:long_ordinal)
+          - version.changeset.each do |k, v|
+            %p.list-group-item-text
+              %strong= k.capitalize
+              %span.text-danger= v[0]
+              >>>
+              %span.text-success= v[1]
+          - if version.reify
+            = link_to 'Restore', revert_version_word_path(version_id: version),
+              method: :post, class: 'btn btn-default btn-raised btn-xs'
+      .list-group-separator
