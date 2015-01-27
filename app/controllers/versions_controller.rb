@@ -6,10 +6,10 @@ class VersionsController < ApplicationController
   end
 
   def revert
-    @version = Word.find(params[:id]).versions.find(params[:version_id])
+    @version = PaperTrail::Version.find(params[:version_id])
     if @version.reify.save!
       redirect_to word_path(@version.item),
-                  flash: { success: '"Word reverted.' }
+                  flash: { success: "Word «#{@version.item.title}» reverted." }
     else
       redirect_to versions_word_path,
                   flash: { danger: 'Word could not be reverted.' }

@@ -1,34 +1,33 @@
 class WordsController < ApplicationController
   before_action :find_word,
                 only: [:edit, :update, :destroy, :find_translation, :show]
+  before_action :return_languages,
+                only: [:index, :index_by_language, :show]
+  before_action :find_language,
+                only: [:index_by_language, :find_translation]
 
   def index
     @words = Word.ordered.group_by { |word| word.title[0].upcase }
   end
 
   def index_by_language
-    @words =
-      Word
-      .language(params[:lang]).ordered.group_by { |word| word.title[0].upcase }
+    @languages -= [@lang]
+    @words = Word.language(params[:lang]).ordered
+             .group_by { |word| word.title[0].upcase }
     return redirect_to words_path if @words.empty?
     render :index
   end
 
   def show
     @translations = @word.translations
-    @languages =
-      Language.where
-      .not(code: @word.translations
-                 .collect { |translation| translation.language.code }
-                 .push(@word.language.code))
+    @languages -= @word.translations.map(&:language) << @word.language
     render :show
   end
 
   def find_translation
-    @lang = Language.find_by(code: params[:lang].upcase)
-    return redirect_to word_path(@word) unless @lang || @word.language != @lang
-    @translated_word = @word.translations.find_by(language: @lang)
-    return redirect_to word_path(@translated_word) if @translated_word
+    return redirect_to word_path(@word) if @word.language == @lang || !@lang
+    translated_word = @word.translations.find_by(language: @lang)
+    return redirect_to word_path(translated_word) if translated_word
     @word_to_translate = @word
     @word = Word.new language: @lang
     render :new
@@ -74,9 +73,18 @@ class WordsController < ApplicationController
     return redirect_to search_path(query: params[:id]) unless @word
   end
 
+  def find_language
+    @lang = Language.find_by(code: params[:lang].upcase)
+  end
+
   def require_params
     params.require(:word).permit(:title, :body, :language_id)
   end
 
-  private :find_word, :require_params, :create_translation
+  def return_languages
+    @languages = Language.all
+  end
+
+  private :find_word, :find_language, :require_params, :create_translation,
+          :return_languages
 end

@@ -1,8 +1,16 @@
 .well.well-lg
-  %h1 All Words
+  %h1 #{@lang ? @lang.name : 'All'} Words
 
   .list-group
     - @words.each do |letter, words_array|
       %strong= letter
       - words_array.each do |word|
         = link_to word.title, word_path(word), class: 'list-group-item'
+
+- if params[:action] != 'search'
+  .well.well-sm
+    - if params[:action] == 'index_by_language'
+      = link_to 'All Words', root_path
+    - if @languages
+      - @languages.each do |lang|
+        = link_to lang.name + ' Words', language_words_path(lang.code)
