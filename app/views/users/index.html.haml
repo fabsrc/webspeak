@@ -5,7 +5,7 @@
     - @users.each do |letter, users_array|
       %h3= letter
       - users_array.each do |user|
-        %div.list-group-item
+        .list-group-item
           = link_to user.name, user_path(user), class:'list-group-item-heading'
           - if current_user.role > 0 && !current_user?(user)
             = link_to "Edit", edit_user_path(user), class:'list-group-item-text'

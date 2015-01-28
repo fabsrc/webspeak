@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'words#index'
+
+  get 'tags/:tag', to: 'words#index', as: :tag
 end

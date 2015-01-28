@@ -1,5 +1,13 @@
 .well.well-lg
-  %h1 All Words
+  - if @tag 
+    %h1 All Words with #{@tag}
+  - else
+    %h1 All Words
+
+  .tag_cloud
+    - tag_cloud Word.tag_counts.sort { |x, y| x.name <=> y.name }, %[s m l] do |tag, css_class|
+      = link_to tag.name, tag_path(tag.name), class: css_class
+
 
   .list-group
     - @words.each do |letter, words_array|

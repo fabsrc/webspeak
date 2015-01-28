@@ -30,6 +30,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'faker',  '1.4.2'
 
+gem 'acts-as-taggable-on', '~> 3.4'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
