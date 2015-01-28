@@ -31,7 +31,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'eamil validation should accept valid addresses' do
-    valid_addresses = %w(user@example.com USER@foo.COM A_US-ER@foo.bar.org first.last@foo.jp alice+bob@baz.cn)
+    valid_addresses = %w( user@example.com USER@foo.COM A_US-ER@foo.bar.org 
+                          first.last@foo.jp alice+bob@baz.cn)
 
     valid_addresses.each do |valid_address|
       @user.email = valid_address
@@ -40,7 +41,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'eamil validation should accept invalid addresses' do
-    invalid_addresses = %w(user@example,com user_at_foo.org A_US-ER@foo@test.org bob@baz+baz.com)
+    invalid_addresses = %w( user@example,com user_at_foo.org 
+                            A_US-ER@foo@test.org bob@baz+baz.com)
 
     invalid_addresses.each do |invalid_address|
       @user.email = invalid_address
