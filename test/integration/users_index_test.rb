@@ -12,8 +12,9 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_template 'users/index'
     assert_select 'a[href=?]', user_path(@non_admin), text: @non_admin.name
     unless @non_admin == @admin
-      assert_select 'a[href=?]', user_path(@non_admin), text: 'Delete',
-                                                        method: :delete
+      assert_select 'a[href=?]',  user_path(@non_admin),   
+                                  text: 'Delete',
+                                  method: :delete
     end
     assert_difference 'User.count', -1 do
       delete user_path(@non_admin)

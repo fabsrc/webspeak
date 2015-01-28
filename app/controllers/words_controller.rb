@@ -11,6 +11,7 @@ class WordsController < ApplicationController
 
   def index
     @words = Word.ordered_and_grouped
+    @tags = Word.tag_counts_on(:tags).order(:name)
   end
 
   def index_by_language
@@ -24,6 +25,10 @@ class WordsController < ApplicationController
     return redirect_to words_path unless (@tag = params[:tag])
     @words = Word.tagged_with(@tag).ordered_and_grouped
     render :index
+  end
+
+  def tag_cloud
+    @tags = Word.tag_counts_on(:tags).order(:name)
   end
 
   def show
