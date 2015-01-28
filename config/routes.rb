@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :words, path: '' do
     collection do
       get '_:lang', to: 'words#index_by_language', as: 'language'
+      get '_tags/:tag', to: 'words#index_by_tag', as: :tag
     end
     member do
       scope :versions do
@@ -22,6 +23,4 @@ Rails.application.routes.draw do
     end
   end
   root to: 'words#index'
-
-  get 'tags/:tag', to: 'words#index', as: :tag
 end

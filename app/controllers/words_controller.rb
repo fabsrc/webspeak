@@ -4,25 +4,25 @@ class WordsController < ApplicationController
   before_action :find_language,
                 only: [:index_by_language, :find_translation]
   before_action :return_languages,
-                only: [:index, :index_by_language, :show]
+                only: [:index, :index_by_language, :index_by_tag, :show]
   before_action :logged_in_user,
                 only: [:edit, :update, :destroy, :create, :new]
   before_action :admin_user, only: :destroy
 
   def index
-    if params[:tag]
-      @words = Word.tagged_with(params[:tag]).ordered.group_by{ |word| word.title[0].upcase }
-      @tag = params[:tag]
-    else
-      @words = Word.ordered.group_by { |word| word.title[0].upcase }
-    end
+    @words = Word.ordered_and_grouped
   end
 
   def index_by_language
     @languages -= [@lang]
-    @words = Word.language(params[:lang]).ordered
-             .group_by { |word| word.title[0].upcase }
+    @words = Word.language(params[:lang]).ordered_and_grouped
     return redirect_to words_path if @words.empty?
+    render :index
+  end
+
+  def index_by_tag
+    return redirect_to words_path unless (@tag = params[:tag])
+    @words = Word.tagged_with(@tag).ordered_and_grouped
     render :index
   end
 
