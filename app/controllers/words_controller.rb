@@ -8,10 +8,10 @@ class WordsController < ApplicationController
   before_action :logged_in_user,
                 only: [:edit, :update, :destroy, :create, :new]
   before_action :admin_user, only: :destroy
+  before_action :tag_cloud, only: [:index, :index_by_language, :index_by_tag]
 
   def index
     @words = Word.ordered_and_grouped
-    @tags = Word.tag_counts_on(:tags).order(:name)
   end
 
   def index_by_language
@@ -25,10 +25,6 @@ class WordsController < ApplicationController
     return redirect_to words_path unless (@tag = params[:tag])
     @words = Word.tagged_with(@tag).ordered_and_grouped
     render :index
-  end
-
-  def tag_cloud
-    @tags = Word.tag_counts_on(:tags).order(:name)
   end
 
   def show
@@ -82,7 +78,7 @@ class WordsController < ApplicationController
   end
 
   def find_word
-    @word = Word.find_by(slug: params[:id])
+    @word = Word.find(params[:id])
     return redirect_to search_path(query: params[:id]) unless @word
   end
 
@@ -98,6 +94,10 @@ class WordsController < ApplicationController
     @languages = Language.all
   end
 
+  def tag_cloud
+    @tags = Word.tag_counts_on(:tags).order(:name)
+  end
+
   private :find_word, :find_language, :require_params, :create_translation,
-          :return_languages
+          :return_languages, :tag_cloud
 end

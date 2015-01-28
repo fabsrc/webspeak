@@ -86,4 +86,4 @@ gem 'reek', group: :development
 gem 'rails_12factor', group: :production
 
 # Use postgres as production db
-# gem 'pg'
+gem 'pg', group: :production
