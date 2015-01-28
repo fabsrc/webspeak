@@ -1,10 +1,9 @@
 require 'test_helper'
 
 class UsersLoginTest < ActionDispatch::IntegrationTest
-  fixtures :users
 
   def setup
-    @user = users(:mike)
+    @user = create(:user)
   end
 
   test 'login with valid information followed by logout' do

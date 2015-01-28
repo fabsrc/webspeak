@@ -1,10 +1,11 @@
 class WordsController < ApplicationController
   before_action :find_word,
                 only: [:edit, :update, :destroy, :find_translation, :show]
-  before_action :return_languages,
-                only: [:index, :index_by_language, :show]
   before_action :find_language,
                 only: [:index_by_language, :find_translation]
+  before_action :logged_in_user,
+                only: [:edit, :update, :destroy, :create, :new]
+  before_action :admin_user, only: :destroy
 
   def index
     @words = Word.ordered.group_by { |word| word.title[0].upcase }
@@ -84,7 +85,14 @@ class WordsController < ApplicationController
   def return_languages
     @languages = Language.all
   end
+  
+  def admin_user
+    unless current_user.role > 0
+      flash.now[:danger] = 'You have to be an Administrator.'
+      render 'edit'
+    end
+  end
 
   private :find_word, :find_language, :require_params, :create_translation,
-          :return_languages
+          :return_languages, :admin_user
 end

@@ -21,11 +21,12 @@
                   autocomplete: 'off', placeholder: 'Search'
               = submit_tag 'Search', class: 'btn btn-primary hidden'
             %ul.nav.navbar-nav.navbar-right
-              %li{ class: current_page?('/new') && 'active' }
-                = link_to 'New Word', controller: 'words', action: 'new'
+              - if logged_in?
+                %li{ class: current_page?('/new') && 'active' }
+                  = link_to 'New Word', controller: 'words', action: 'new'
               - if logged_in?
                 %li{ class: current_page?('/users') && 'active' }
-                  = link_to 'Users', '#'
+                  = link_to 'Users', users_path
                 %li.dropdown
                   = link_to '#', class: 'dropdown-toggle',
                     'data-toggle' => 'dropdown' do
