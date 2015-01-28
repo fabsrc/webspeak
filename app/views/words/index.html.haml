@@ -2,7 +2,7 @@
   %h1 #{@lang ? @lang.name : 'All'} Words #{@tag ? ' tagged with ' + @tag : ''}
 
   .tag_cloud
-    - tag_cloud Word.tag_counts.sort { |x, y| x.name <=> y.name }, %[s m l] do |tag, css_class|
+    - tag_cloud(@tags, %w(s m l)) do |tag, css_class|
       = link_to tag.name, tag_words_path(tag.name), class: css_class
 
   .list-group
