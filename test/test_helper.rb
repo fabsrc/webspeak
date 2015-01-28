@@ -8,9 +8,7 @@ Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter
   .new(reporter_options)]
 
 class ActiveSupport::TestCase
-  fixtures :all
-
-  def is_logged_in?
+  def logged_in?
     !session[:user_id].nil?
   end
 

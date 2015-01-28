@@ -1,6 +1,8 @@
 class VersionsController < ApplicationController
+  before_action :admin_user, only: :revert
+
   def index
-    @word = Word.find_by(slug: params[:id])
+    @word = Word.find(params[:id])
     @versions = @word.versions
   end
 
