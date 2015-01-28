@@ -9,4 +9,5 @@
   = f.button :submit, class: 'btn btn-raised'
   - if params['action'] == 'edit'
     = link_to 'Delete', user_path(@user), method: :delete,
-                                          class: 'btn btn-flat btn-danger'
+                                          class: 'btn btn-flat btn-danger',
+                                          data: {confirm: "Are you sure?"}

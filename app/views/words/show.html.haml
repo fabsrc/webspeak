@@ -2,7 +2,8 @@
   %h1= @word.title
   %p= @word.body
 
-  = link_to 'Edit', edit_word_path(@word), class: 'btn btn-default btn-raised'
+  - if logged_in?
+    = link_to 'Edit', edit_word_path(@word), class: 'btn btn-default btn-raised'
   - if @word.versions.count > 0
     = link_to 'Versions', { controller: 'versions', action: 'index' },
       class: 'btn btn-default btn-raised'

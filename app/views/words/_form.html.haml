@@ -6,6 +6,6 @@
   - if @word_to_translate
     = hidden_field_tag 'word[translation_of]', @word_to_translate.id
   = f.button :submit, class: 'btn btn-raised'
-  - if params['action'] == 'edit'
+  - if params['action'] == 'edit' && current_user.role > 0
     = link_to 'Delete', word_path(@word), method: :delete,
       class: 'btn btn-flat btn-danger'
