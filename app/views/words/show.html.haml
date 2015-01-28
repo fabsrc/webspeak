@@ -1,6 +1,7 @@
 .well.well-lg
   %h1= @word.title
   %p= @word.body
+  %p= raw @word.tag_list.map { |t| link_to t, tag_path(t)}.join(', ')
 
   - if logged_in?
     = link_to 'Edit', edit_word_path(@word), class: 'btn btn-default btn-raised'

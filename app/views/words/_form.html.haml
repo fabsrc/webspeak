@@ -2,6 +2,7 @@
   = f.error_notification
   = f.input :title, required: false
   = f.input :body, as: :text, required: false
+  = f.input :tag_list, as: :text, hint: 'Tags separated by commas',required: false
   = f.association :language, as: :select, include_blank: false, required: false
   - if @word_to_translate
     = hidden_field_tag 'word[translation_of]', @word_to_translate.id

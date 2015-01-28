@@ -5,6 +5,8 @@ class UsersController < ApplicationController
                 only: [:edit, :update, :destroy]
   before_action :find_user,
                 only: [:correct_user_or_admin, :update, :edit, :show, :destroy]
+  before_action :logged_in_user, only: [:edit, :update, :index, :destroy]
+  before_action :correct_user_or_admin, only: [:edit, :update, :destroy]
 
   def index
     @users = User.ordered.group_by { |user| user.name[0].upcase }

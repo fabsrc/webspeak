@@ -10,7 +10,12 @@ class WordsController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @words = Word.ordered.group_by { |word| word.title[0].upcase }
+    if params[:tag]
+      @words = Word.tagged_with(params[:tag]).ordered.group_by{ |word| word.title[0].upcase }
+      @tag = params[:tag]
+    else
+      @words = Word.ordered.group_by { |word| word.title[0].upcase }
+    end
   end
 
   def index_by_language
@@ -81,7 +86,7 @@ class WordsController < ApplicationController
   end
 
   def require_params
-    params.require(:word).permit(:title, :body, :language_id)
+    params.require(:word).permit(:title, :body, :language_id, :tag_list)
   end
 
   def return_languages
