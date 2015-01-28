@@ -6,7 +6,7 @@ class WordsController < ApplicationController
   before_action :return_languages,
                 only: [:index, :index_by_language, :index_by_tag, :show]
   before_action :logged_in_user,
-                only: [:edit, :update, :destroy, :create, :new]
+                only: [:edit, :update, :destroy, :create]
   before_action :admin_user, only: :destroy
   before_action :tag_cloud, only: [:index, :index_by_language, :index_by_tag]
 
