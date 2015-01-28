@@ -1,8 +1,7 @@
 class VersionsController < ApplicationController
   def index
-    word = Word.find_by_slug(params[:id])
-    @title = word.title
-    @versions = word.versions
+    @word = Word.find_by(slug: params[:id])
+    @versions = @word.versions
   end
 
   def revert

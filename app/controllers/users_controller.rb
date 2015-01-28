@@ -1,14 +1,13 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user,        only: [:edit, :update, :index, :destroy]
-  before_action :correct_user_or_admin, only: [:edit, :update, :destroy]
-  #before_action :admin_user,      only: :destroy
+  before_action :logged_in_user,
+                only: [:edit, :update, :index, :destroy]
+  before_action :correct_user_or_admin,
+                only: [:edit, :update, :destroy]
+  before_action :find_user,
+                only: [:correct_user_or_admin, :update, :edit, :show, :destroy]
 
   def index
     @users = User.ordered.group_by { |user| user.name[0].upcase }
-  end
-
-  def show
-    @user = User.find(params[:id])
   end
 
   def new
@@ -16,37 +15,27 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new user_params
     if @user.save
       log_in @user
-      flash[:success] = 'Welcome to Webspeak'
-      redirect_to @user
+      redirect_to @user, flash: { success: 'Welcome to Webspeak' }
     else
       render 'new'
     end
   end
 
-  def edit
-    @user = User.find(params[:id])
-  end
-
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = 'Profile updated'
-      redirect_to @user
+      redirect_to @user, flash: { success: 'Profile updated.' }
     else
       render 'edit'
     end
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User deleted"
-    redirect_to users_url
+    @user.destroy
+    redirect_to users_url, flash: { success: 'User deleted.' }
   end
-
-  private
 
   def user_params
     params.require(:user).permit(:name, :email,
@@ -54,19 +43,14 @@ class UsersController < ApplicationController
   end
 
   def correct_user_or_admin
-    @user = User.find(params[:id])
-    unless current_user.role > 0 || current_user?(@user)
-      flash[:danger] = 'You have to be an Administrator.'
-      redirect_to(root_url) 
-    end
+    return if admin? || current_user?(@user)
+    redirect_to root_path,
+                flash: { danger: 'You have to be an Administrator.' }
   end
 
-  # def admin_user
-  #   unless current_user.role > 0
-  #     flash[:danger] = 'You have to be an Administrator.'
-  #     redirect_to(root_url) 
-  #   end
-  # end
+  def find_user
+    @user = User.find(params[:id])
+  end
 
-
+  private :user_params, :find_user, :correct_user_or_admin
 end

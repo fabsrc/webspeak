@@ -3,6 +3,8 @@ class WordsController < ApplicationController
                 only: [:edit, :update, :destroy, :find_translation, :show]
   before_action :find_language,
                 only: [:index_by_language, :find_translation]
+  before_action :return_languages,
+                only: [:index, :index_by_language, :show]
   before_action :logged_in_user,
                 only: [:edit, :update, :destroy, :create, :new]
   before_action :admin_user, only: :destroy
@@ -85,12 +87,11 @@ class WordsController < ApplicationController
   def return_languages
     @languages = Language.all
   end
-  
+
   def admin_user
-    unless current_user.role > 0
-      flash.now[:danger] = 'You have to be an Administrator.'
-      render 'edit'
-    end
+    return if admin?
+    redirect_to :back,
+                flash: { danger: 'You have to be an Administrator.' }
   end
 
   private :find_word, :find_language, :require_params, :create_translation,

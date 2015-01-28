@@ -13,9 +13,11 @@ Rails.application.routes.draw do
       get '_:lang', to: 'words#index_by_language', as: 'language'
     end
     member do
-      get '/versions', to: 'versions#index'
-      post '/versions/:version_id/revert', to: 'versions#revert',
-                                           as: 'revert_version'
+      scope :versions do
+        get '/', to: 'versions#index', as: 'versions'
+        post '/:version_id/revert', to: 'versions#revert',
+                                    as: 'revert_version'
+      end
       get '/_:lang', to: 'words#find_translation', as: 'translation'
     end
   end

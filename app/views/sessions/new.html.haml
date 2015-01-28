@@ -3,8 +3,9 @@
     = f.error_notification
     = f.input :email, required: false
     = f.input :password, required: false, input_html: { minlength: 6 }
-    %div.form-group
-      = f.input_field :remember_me, as: :boolean, label:'Remember me', inline_label: true
+    .form-group
+      = f.input_field :remember_me, as: :boolean,
+        label: 'Remember me', inline_label: true
     = f.button :submit, 'Log in', class: 'btn btn-raised'
 
     %p
