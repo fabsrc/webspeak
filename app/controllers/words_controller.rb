@@ -1,41 +1,41 @@
 class WordsController < ApplicationController
   before_action :find_word,
                 only: [:edit, :update, :destroy, :find_translation, :show]
-  before_action :logged_in_user,  only: [:edit, :update, :destroy, :create, :new]
-  before_action :admin_user,      only: :destroy
+  before_action :find_language,
+                only: [:index_by_language, :find_translation]
+  before_action :return_languages,
+                only: [:index, :index_by_language, :index_by_tag, :show]
+  before_action :logged_in_user,
+                only: [:edit, :update, :destroy, :create, :new]
+  before_action :admin_user, only: :destroy
 
   def index
-    if params[:tag]
-      @words = Word.tagged_with(params[:tag]).ordered.group_by{ |word| word.title[0].upcase }
-      @tag = params[:tag]
-    else
-      @words = Word.ordered.group_by { |word| word.title[0].upcase }
-    end
+    @words = Word.ordered_and_grouped
   end
 
   def index_by_language
-    @words =
-      Word
-      .language(params[:lang]).ordered.group_by { |word| word.title[0].upcase }
+    @languages -= [@lang]
+    @words = Word.language(params[:lang]).ordered_and_grouped
     return redirect_to words_path if @words.empty?
+    render :index
+  end
+
+  def index_by_tag
+    return redirect_to words_path unless (@tag = params[:tag])
+    @words = Word.tagged_with(@tag).ordered_and_grouped
     render :index
   end
 
   def show
     @translations = @word.translations
-    @languages =
-      Language.where
-      .not(code: @word.translations
-                 .collect { |translation| translation.language.code }
-                 .push(@word.language.code))
+    @languages -= @word.translations.map(&:language) << @word.language
     render :show
   end
 
   def find_translation
-    @lang = Language.find_by(code: params[:lang].upcase)
-    return redirect_to word_path(@word) unless @lang || @word.language != @lang
-    @translated_word = @word.translations.find_by(language: @lang)
-    return redirect_to word_path(@translated_word) if @translated_word
+    return redirect_to word_path(@word) if @word.language == @lang || !@lang
+    translated_word = @word.translations.find_by(language: @lang)
+    return redirect_to word_path(translated_word) if translated_word
     @word_to_translate = @word
     @word = Word.new language: @lang
     render :new
@@ -78,20 +78,27 @@ class WordsController < ApplicationController
 
   def find_word
     @word = Word.find_by(slug: params[:id])
-    return redirect_to search_words_path(query: params[:id]) unless @word
+    return redirect_to search_path(query: params[:id]) unless @word
+  end
+
+  def find_language
+    @lang = Language.find_by(code: params[:lang].upcase)
   end
 
   def require_params
     params.require(:word).permit(:title, :body, :language_id, :tag_list)
   end
 
-  private :find_word, :require_params, :create_translation
-
-  def admin_user
-    unless current_user.role > 0
-      flash.now[:danger] = 'You have to be an Administrator.'
-      render 'edit'
-    end
+  def return_languages
+    @languages = Language.all
   end
 
+  def admin_user
+    return if admin?
+    redirect_to :back,
+                flash: { danger: 'You have to be an Administrator.' }
+  end
+
+  private :find_word, :find_language, :require_params, :create_translation,
+          :return_languages, :admin_user
 end

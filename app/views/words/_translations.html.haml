@@ -1,6 +1,7 @@
 .well.well-sm
-  - @translations.each do |translation|
-    = link_to translation.language.code, word_path(translation)
-  - @languages.each do |language|
-    = link_to 'New ' + language.name + ' translation',
-      translation_word_path(@word, language.code)
+  - if @translations && @languages
+    - @translations.each do |translation|
+      = link_to translation.language.code, word_path(translation)
+    - @languages.each do |language|
+      = link_to 'New ' + language.name + ' translation',
+        translation_word_path(@word, language.code)

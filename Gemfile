@@ -82,3 +82,8 @@ gem 'rubocop', require: false, group: :development
 gem 'haml-lint', require: false, group: :development
 gem 'rails_best_practices', group: :development
 gem 'reek', group: :development
+
+gem 'rails_12factor', group: :production
+
+# Use postgres as production db
+gem 'pg'

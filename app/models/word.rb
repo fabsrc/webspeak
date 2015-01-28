@@ -19,7 +19,10 @@ class Word < ActiveRecord::Base
                                   source: :word
   belongs_to :language
 
-  scope :ordered, -> { order('lower(title)') }
+  scope :ordered_and_grouped, lambda {
+    order('lower(title)')
+      .group_by { |word| word.title[0].upcase }
+  }
   scope :language, ->(l) { where(language: Language.find_by(code: l.upcase)) }
 
   def normalize_friendly_id(string)

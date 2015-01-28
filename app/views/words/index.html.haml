@@ -1,16 +1,20 @@
 .well.well-lg
-  - if @tag 
-    %h1 All Words with #{@tag}
-  - else
-    %h1 All Words
+  %h1 #{@lang ? @lang.name : 'All'} Words #{@tag ? ' tagged with ' + @tag : ''}
 
   .tag_cloud
     - tag_cloud Word.tag_counts.sort { |x, y| x.name <=> y.name }, %[s m l] do |tag, css_class|
-      = link_to tag.name, tag_path(tag.name), class: css_class
-
+      = link_to tag.name, tag_words_path(tag.name), class: css_class
 
   .list-group
     - @words.each do |letter, words_array|
       %strong= letter
       - words_array.each do |word|
         = link_to word.title, word_path(word), class: 'list-group-item'
+
+- if params[:action] != 'search'
+  .well.well-sm
+    - if params[:action] == 'index_by_language'
+      = link_to 'All Words', root_path
+    - if @languages
+      - @languages.each do |lang|
+        = link_to lang.name + ' Words', language_words_path(lang.code)

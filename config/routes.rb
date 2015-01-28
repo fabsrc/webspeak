@@ -1,25 +1,26 @@
 Rails.application.routes.draw do
-  get 'signup',    to: 'users#new'
-  get 'login',     to: 'sessions#new'
-  post 'login',    to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
+  get '_signup', to: 'users#new', as: 'signup'
+  get '_login', to: 'sessions#new', as: 'login'
+  post '_login', to: 'sessions#create'
+  delete '_logout', to: 'sessions#destroy', as: 'logout'
+
+  get '_autocomplete',  to: 'search#autocomplete'
+  get '_search',        to: 'search#search', as: 'search'
 
   resources :users
   resources :words, path: '' do
     collection do
-      get '_autocomplete',  to: 'search#autocomplete'
-      get '_search',        to: 'search#search', as: 'search'
-      get '_:lang',         to: 'words#index_by_language'
+      get '_:lang', to: 'words#index_by_language', as: 'language'
+      get '_tags/:tag', to: 'words#index_by_tag', as: :tag
     end
     member do
-      get '/versions', to: 'versions#index'
-      post '/versions/:version_id/revert', to: 'versions#revert',
-                                           as: 'revert_version'
+      scope :versions do
+        get '/', to: 'versions#index', as: 'versions'
+        post '/:version_id/revert', to: 'versions#revert',
+                                    as: 'revert_version'
+      end
       get '/_:lang', to: 'words#find_translation', as: 'translation'
     end
   end
-
   root to: 'words#index'
-
-  get 'tags/:tag', to: 'words#index', as: :tag
 end
