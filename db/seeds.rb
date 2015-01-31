@@ -2,25 +2,25 @@ lang1 = Language.create! name: 'German', code: 'DE'
 lang2 = Language.create! name: 'English', code: 'EN'
 
 word1 = Word.new title: 'HTML',
-                 body: 'Hyper Text Markup Language is a markup \
+                 body: 'Hyper Text Markup Language is a markup
                  language for the web',
                  language: lang2,
                  tag_list: %w(acronym markup)
 
 word2 = Word.new title: 'ÜTAS',
-                 body: 'Die Übertextauszeichnungssprache ist eine \
+                 body: 'Die Übertextauszeichnungssprache ist eine
                  Auszeichnungssprache zur Erstellung von Netzinhalten.',
                  language: lang1,
                  tag_list: %w(acronym markup)
 
 word3 = Word.new title: 'Material Design',
-                 body: 'Material Design is Google\'s new way \
+                 body: 'Material Design is Google\'s new way
                  of designing the web.',
                  language: lang2,
                  tag_list: %w(design google)
 
 word4 = Word.new title: 'Materialgestaltung',
-                 body: 'Materialgestaltung ist Googles neue Art \
+                 body: 'Materialgestaltung ist Googles neue Art
                  das Netz zu gestalten.',
                  language: lang1,
                  tag_list: %w(design google)
