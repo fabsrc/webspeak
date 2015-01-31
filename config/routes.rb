@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   resources :users
   resources :words, path: '' do
     collection do
-      get '_:lang', to: 'words#index_by_language', as: 'language'
       get '_tags/:tag', to: 'words#index_by_tag', as: :tag
+      get '_:lang', to: 'words#index_by_language', as: 'language'
     end
     member do
       scope :versions do

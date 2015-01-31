@@ -23,7 +23,7 @@ class Word < ActiveRecord::Base
     order('lower(title)')
       .group_by { |word| word.title[0].upcase }
   }
-  scope :language, ->(l) { where(language: Language.find_by(code: l.upcase)) }
+  scope :language, ->(lang) { where(language: lang) }
 
   def normalize_friendly_id(string)
     string.to_s.gsub(/\s/, '_')

@@ -16,14 +16,15 @@ class WordsController < ApplicationController
 
   def index_by_language
     @languages -= [@lang]
-    @words = Word.language(params[:lang]).ordered_and_grouped
+    @words = Word.language(@lang).ordered_and_grouped
     return redirect_to words_path if @words.empty?
     render :index
   end
 
   def index_by_tag
-    return redirect_to words_path unless (@tag = params[:tag])
+    @tag = params[:tag]
     @words = Word.tagged_with(@tag).ordered_and_grouped
+    return redirect_to words_path if @words.empty?
     render :index
   end
 
