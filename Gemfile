@@ -49,7 +49,7 @@ gem 'autoprefixer-rails'
 
 # Use Bootstrap Material Design
 gem 'bootstrap-sass', '~> 3.3.1.0'
-gem 'bootstrap-material-design'
+gem 'bootstrap-material-design', '0.1.4'
 
 # Use Haml as templating engine
 gem 'haml', '~> 4.0.6'

@@ -1,4 +1,0 @@
-== Project Initialization
-
-* Elasticsearch is required for the search function
-* Seed the db with `rake db:seed`
